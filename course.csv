@@ -1,0 +1,84 @@
+CSE-1101, Fundamentals of Computers and Computing, 2.0, 1
+CSE-1102, Discrete Mathematics, 3.0, 1
+EEE-1103, Electrical Circuits, 3.0, 1
+PHY-1104, Physics, 3.0, 1
+MATH-1105, Differential and Integral Calculus, 3.0, 1
+CSE-1111, Fundamentals of Computer and Computing Lab, 1.5, 1
+EEE-1113, Electrical Circuits Lab, 1.5, 1
+PHY-1114, Physics Lab, 1.5, 1
+CSE-1201, Fundamentals of Programming, 3.0, 2
+EEE-1202, Digital Logic Design, 3.0, 2
+CHE-1203, Chemistry, 3.0, 2
+MATH-1204, Method of Integration, Differential Equations and series, 03, 2
+CSE-1211, Fundamentals of Programming Lab, 1.5, 2
+EEE-1212, Digital Logic Design Lab, 1.5, 2
+ENG-1215, Developing English Language Skill Lab, 1.5, 2
+CSE-2101, Data Structures and Algorithms, 3.0, 3
+CSE-2102, Object Oriented Programming, 3.0, 3
+EEE-2103, Electronic Devices and Circuits, 3.0, 3
+GED-2104, Bangladesh Studies, 2.0, 3
+CSE-2111, Data Structures and Algorithms Lab, 1.5, 3
+CSE-2112, Object Oriented Programming Lab, 1.5, 3
+EEE-2113, Electronic Devices and Circuits Lab, 0.75, 3
+CSE-2201, Database Management Systems, 3.0, 4
+CSE-2202, Design and Analysis of Algorithms, 3.0, 4
+CSE-2203, Data and Telecommunication, 3.0, 4
+CSE-2204, Computer Architecture and Organization, 3.0, 4
+CSE-2205, Introduction to Mechatronics, 2.0, 4
+CSE-2211, Database Management Systems Lab, 1.5, 4
+CSE-2212, Design and Analysis of Algorithms Lab, 1.5, 4
+CSE-2216, Application Development Lab, 1.5, 4
+CSE-3101, Computer Networking, 3.0, 5
+CSE-3102, Software Engineering, 3.0, 5
+CSE-3103, Microprocessor and Microcontroller, 3.0, 5
+CSE-3104, Formal Language, Automata and Computability, 3.5, 5
+MATH-3105, Multivariable Calculus and Geometry, 3.0, 5
+CSE-3111, Computer Networking Lab, 1.5, 5
+CSE-3112, Software Engineering Lab, 0.75, 5
+CSE-3113, Microprocessor and Assembly Language Lab, 1.5, 5
+CSE-3116, Microcontroller Lab, 0.75, 5
+CSE-3201, Operating Systems, 3.0, 6
+CSE-3202, Numerical Methods, 3.0, 6
+CSE-3203, Digital Image Processing, 3.0, 6
+CSE-3204, Compiler Design, 3.0, 6
+STAT-3205, Introduction to Probability and Statistics, 3.0, 6
+CSE-3211, Operating Systems Lab, 1.5, 6
+CSE-3212, Numerical Methods Lab, 0.75, 6
+CSE-3213, Digital Image Processing Lab, 0.75, 6
+CSE-3214, Compiler Design Lab, 0.75, 6
+CSE-3217, Technical Writing and Presentation Lab, 0.75, 6
+CSE-4101, Artificial Intelligence, 3.0, 7
+CSE-4102, Mathematical and Statistical Analysis for Engineers, 3.0, 7
+CSE-4103, Graph Theory, 3.0, 7
+CSE-4XXX, Option-I, 3.0, 7
+CSE-4XXX, Option-II, 3.0, 7
+CSE-4111, Artificial Intelligence Lab, 1.5, 7
+CSE-4XXX, Option-I Lab, 1.5, 7
+CSE-4113, Internet and Web Programming Lab, 1.5, 7
+CSE-4114, Thesis/Project, 2.0, 7
+ECO-4201, Economics, 2.0, 8
+CSE-4202, Society and Technology, 2.0, 8
+CSE-4XXX, Option-III, 3.0, 8
+CSE-4XXX, Option-IV, 3.0, 8
+CSE-4XXX, Option-III Lab, 1.5, 8
+CSE-4214, Thesis/Project, 4.0, 8
+CSE-4103, Robotics Science and Systems, 3.0, 7
+CSE-4105, Computational Methods in Bio-molecular Sequence & Structure Analysis, 3.0, 7
+CSE-4107, Introduction to Data Science, 3.0, 7
+CSE-4108, Information Retrieval, 3.0, 7
+CSE-4110, Parallel and Distributed Systems, 3.0, 7
+CSE-4112, Introduction to VLSI Design, 3.0, 7
+CSE-4115, Algorithm Engineering, 3.0, 7
+CSE-4116, Software Requirements Specification. and Analysis, 3.0, 7
+CSE-4118, Cryptography and Security, 3.0, 7
+CSE-4120, Computer Graphics, 3.0, 7
+CSE-4153, Robotics Science and Systems lab, 1.5, 7
+CSE-4153, Computational Methods in Bio-molecular Sequence & Structure Analysis lab, 1.5, 7
+CSE-4157, Introduction to Data Science lab, 1.5, 7
+CSE-4158, Information Retrieval, 1.5, 7
+CSE-4160, Parallel and Distributed Systems lab, 1.5, 7
+CSE-4162, Introduction to VLSI Design lab, 1.5,7
+CSE-4165, Algorithm Engineering lab, 1.5, 7
+CSE-4166, Software Requirements Specification. and Analysis lab, 1.5, 7
+CSE-4168, Cryptography and Security lab, 1.5, 7
+CSE-4170, Computer Graphics lab, 1.5, 7

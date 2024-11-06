@@ -7,6 +7,11 @@ const string red = "\033[31m";
 const string blue = "\033[34m";
 const string bg_white = "\033[47m";
 #define cyan "\033[36m"
+#define BOLDGREEN "\033[1m\033[32m" /* Bold Green */
+#define BOLDYELLOW "\033[1m\033[33m"
+#define BOLDRED "\033[1m\033[31m"
+#define BOLDMAGENTA "\033[1m\033[35m"
+#define BOLDCYAN "\033[1m\033[36m"
 fstream file, tempfile;
 
 /*----------------------------STUDENT CLASS----------------------------*/
@@ -165,7 +170,8 @@ public:
     float semester_cgpa(string id, string n);
     void grade_book(string id, string n);
     /*----------------Attenedence Part---------*/
-    void take_attendence();
+    void take_attendence(string name);
+    void markAttendence(string id, string attend, string code);
     void attendence_report();
     void attenndence_individual();
     void attenndence_batch_wise();
@@ -173,7 +179,7 @@ public:
 
 } grd;
 
-vector<grade> Grade;
+vector<grade> Grade, TempGrade;
 void write_grade()
 {
     file.open("Grade.csv", ios::out);
@@ -183,7 +189,7 @@ void write_grade()
     }
     else
     {
-        for (auto x : Grade)
+        for (auto &x : Grade)
         {
             file << x.id << "," << x.code << "," << x.semester << "," << x.quiz << "," << x.assignment << "," << x.final << "," << x.credit << "," << x.present_attendence << "," << x.total_attendence << "," << x.grade << "\n";
         }
@@ -410,48 +416,54 @@ int main()
     grade_file();
     student_to_grade();
 
-ab:
-    system("cls");
-    int n;
-    cout << "\n\n\n\n\n";
-    cout << "\t\t\t\t\t       ---------------"
-         << "\n";
-    cout << "\t\t\t\t\t          MAIN MENU"
-         << "\n";
-    cout << "\t\t\t\t\t       ---------------"
-         << "\n\n\n";
-    cout << "\t\t\t\t\t       SELECT OPTIONS"
-         << "\n\n";
-    cout << blue << "\t\t\t\t-------------------------------------------" << reset << "\n";
-    cout << "\t\t\t\t  1. ADMIN\t2.TEACHER \t3. STUDENT"
-         << "\n";
-    cout << blue << "\t\t\t\t-------------------------------------------" << reset
-         << "\n\n";
-    cout << red << "\t\t\t\t            (PRESS 4 TO EXIT)"
-         << "\n\n\n"
-         << reset;
-    cout << "\t\t\t\t\t     ENTER AN OPTION: ";
-    cin >> n;
-
-    switch (n)
+    while (1)
     {
-    case 1:
-        admin_login();
-        break;
-    case 2:
-        teacher_login();
-        break;
-    case 3:
-        stu.student_page();
-        break;
-    case 4:
-        return 0;
-    default:
         system("cls");
-        cout << red << "\n\n\t\t\t\t\t\tWRONG OPTION!" << reset;
-        cout << "\n\n";
-        Sleep(1500);
-        goto ab;
+        string n;
+        cout << "\n\n\n\n\n";
+        cout << "\t\t\t\t\t       ---------------"
+             << "\n";
+        cout << "\t\t\t\t\t          MAIN MENU"
+             << "\n";
+        cout << "\t\t\t\t\t       ---------------"
+             << "\n\n\n";
+        cout << "\t\t\t\t\t       SELECT OPTIONS"
+             << "\n\n";
+        cout << blue << "\t\t\t\t-------------------------------------------" << reset << "\n";
+        cout << "\t\t\t\t  1. ADMIN\t2.TEACHER \t3. STUDENT"
+             << "\n";
+        cout << blue << "\t\t\t\t-------------------------------------------" << reset
+             << "\n\n";
+        cout << red << "\t\t\t\t            (PRESS 4 TO EXIT)"
+             << "\n\n\n"
+             << reset;
+        cout << "\t\t\t\t\t     ENTER AN OPTION: ";
+        cin >> n;
+
+        if (n == "1")
+        {
+            admin_login();
+        }
+        else if (n == "2")
+        {
+            teacher_login();
+        }
+        else if (n == "3")
+        {
+            stu.student_page();
+        }
+
+        else if (n == "4")
+        {
+            return 0;
+        }
+        else
+        {
+            system("cls");
+            cout << red << "\n\n\t\t\t\t\t\tWRONG OPTION!" << reset;
+            cout << "\n\n";
+            Sleep(1500);
+        }
     }
 }
 
@@ -501,7 +513,7 @@ void admin_menu()
     while (1)
     {
         system("cls");
-        char n;
+        string c;
         cout << "\n\n";
         cout << "\t\t\t  -----------------"
              << "\n";
@@ -517,18 +529,14 @@ void admin_menu()
              << "\n\n"
              << reset;
         cout << "\t\t     ENTER YOUR OPTION: ";
-        cin >> n;
-        switch (n)
-        {
-        case '0':
+        cin >> c;
+        if (c == "0")
             return;
-
-            break;
-        case '1':
+        else if (c == "1")
             student_info();
-            break;
-        case '2':
+        else if (c == "2")
         {
+            string n;
             system("cls");
             cout << "\n\n";
             cout << "\t\t\t  ---------------------------"
@@ -540,48 +548,39 @@ void admin_menu()
             cout << "\t\t     1. TEACHER MANAGEMENT"
                  << "\n";
             cout << "\t\t     2. COURSE\n";
-            cout << red << "\t\t     0. LOGOUT"
+            cout << red << "\t\t     0. BACK"
                  << "\n\n"
                  << reset;
             cout << "\t\t     ENTER YOUR OPTION: ";
             cin >> n;
-            switch (n)
-            {
-            case '0':
-                main();
-                break;
 
-            case '1':
+            if (n == "0")
+                admin_menu();
+            else if (n == "1")
                 obj.teacherManagement();
-                break;
-            case '2':
+            else if (n == "3")
                 crs.course_dashboard();
-                break;
-
-            default:
+            else
+            {
                 system("cls");
                 cout << red << "\n\n\t\t\t\t\t\tWRONG OPTION!" << reset;
                 cout << "\n\n";
                 Sleep(1500);
-                break;
             }
-            break;
         }
 
-        case '3':
+        if (c == "3")
             grade_management("admin");
-
-            break;
-
-        default:
+        else
+        {
             system("cls");
             cout << red << "\n\n\t\t\t\t\t\tWRONG OPTION!" << reset;
             cout << "\n\n";
             Sleep(1500);
-            break;
         }
     }
 }
+
 void Admin ::addTeacher()
 {
     system("cls");
@@ -807,17 +806,25 @@ ab:
     }
 }
 //----------Attendence
-void attendence()
+void attendence(string name)
 {
     system("cls");
-    cout << "\n\n\t\t\t1. Take Attendence\n \t\t\t2.Attendence Report\n\t\t\t0.Back";
+    cout
+        << "\n\n\t\t\t  ---------------------------"
+        << "\n";
+    cout << BOLDGREEN << "\t\t\t       ATTENDENCE "
+         << "\n"
+         << reset;
+    cout << "\t\t\t  ---------------------------"
+         << "\n";
+    cout << "\n\t\t\t1. Take Attendence\n \t\t\t2.Attendence Report\n\t\t\t" << red << "0.Back" << reset;
     string n;
-    cout << green << "\n\t\tEnter your option:" << cyan;
+    cout << green << "\n\n\t\tEnter your option:" << cyan;
     cin >> n;
     cout << reset;
     if (n == "1")
     {
-        grd.take_attendence();
+        grd.take_attendence(name);
     }
     else if (n == "2")
     {
@@ -849,6 +856,9 @@ void teacher_menu(string name)
              << "\n";
         cout << "\t\t\t  --------------------"
              << "\n";
+        cout << "\t\t  Welcome back " << cyan << name << reset << " ,Sir"
+             << "\n\n";
+
         cout << blue << "\t\t     1. STUDENT MANAGEMENT"
              << "\n";
         cout << "\t\t     2. GRADE MANAGEMENT"
@@ -871,7 +881,7 @@ void teacher_menu(string name)
             grade_management(name);
             break;
         case 3:
-            attendence();
+            attendence(name);
             break;
         case 4:
             //  student_info();
@@ -951,34 +961,45 @@ void student_info()
 /*----------------------Student Part----------------------*/
 void student::student_page()
 {
-    system("cls");
-    string n;
-    cout << "\n\n\n\n\t\t1:Login\n\t\t2:Sign Up\n\t\t3:Forgot Password\n\t\t0.Back\n";
-    cout << green << "\t\tENTER your Choice:" << cyan;
-    cin >> n;
-    cout << reset;
-    if (n == "1")
-    {
-        student_login();
-    }
-    else if (n == "2")
-    {
-        stu.signup_page();
-    }
-    else if (n == "3")
-    {
-        // stu.forgot_password();
-    }
-    else if (n == "0")
-    {
-        return;
-    }
-    else
+    while (1)
     {
         system("cls");
-        cout << red << "\n\n\t\t\t\t\t\tWRONG OPTION!" << reset;
-        cout << "\n\n";
-        Sleep(1500);
+        cout
+            << "\n\n\t\t\t\t\t  ----------------------------------"
+            << "\n";
+        cout << BOLDCYAN << "\t\t\t\t\t        WHAT'S ON YOUR MIND              "
+             << reset << "\n";
+        cout << "\t\t\t\t\t  ------------------------------------"
+             << "\n";
+        string n;
+        cout << "\t\t\t\t\t 1:Login\n\t\t\t\t\t 2:Sign Up\n\t\t\t\t\t 3:Forgot Password\n\t\t\t\t\t" << red << " 0.Back\n"
+             << reset;
+        cout << green << "\t\t\t\t\tENTER your Choice:" << cyan;
+        cin >> n;
+        cout << reset;
+        if (n == "1")
+        {
+            student_login();
+        }
+        else if (n == "2")
+        {
+            stu.signup_page();
+        }
+        else if (n == "3")
+        {
+            // stu.forgot_password();
+        }
+        else if (n == "0")
+        {
+            return;
+        }
+        else
+        {
+            system("cls");
+            cout << red << "\n\n\t\t\t\t\t\tWRONG OPTION!" << reset;
+            cout << "\n\n";
+            Sleep(1500);
+        }
     }
 }
 void student_login()
@@ -986,6 +1007,13 @@ void student_login()
     system("cls");
     bool found = false;
     string username, pass;
+    cout
+        << "\n\n\t\t\t\t\t  -------------------------------"
+        << "\n";
+    cout << BOLDMAGENTA << "\t\t\t\t\t     Please Login to Continue"
+         << reset << "\n";
+    cout << "\t\t\t\t\t  ------------------------------"
+         << "\n";
     cout << green << "\n\n\t\t\t\t\t   ENTER USERNAME: " << reset;
     cin >> username;
     cout << green << "\n\n\t\t\t\t\t   ENTER THE PASSWORD: " << reset;
@@ -996,6 +1024,7 @@ void student_login()
         {
             cout << x.username << " " << x.pass << endl;
             found = true;
+            break;
         }
     }
     if (found)
@@ -1006,6 +1035,7 @@ void student_login()
     {
         cout << red << "\n\n\t\tInvalid Username or Password\n"
              << reset;
+        Sleep(1500);
         return;
     }
 }
@@ -1016,11 +1046,11 @@ ab:
     cout
         << "\t\t\t  ----------------------------"
         << "\n";
-    cout << "\t\t\t  WELCOME TO   SIGN UP PAGE"
+    cout << BOLDYELLOW << "\t\t\t  WELCOME TO   SIGN UP PAGE"
          << "\n";
     cout << "\t\t\t  ---------------------------\n";
 
-    cout << "ENTER YOUR NAME:";
+    cout << reset << "ENTER YOUR NAME:";
     cin.ignore();
     getline(cin, name);
     cout << "ENTER YOUR ID:";
@@ -1087,13 +1117,14 @@ ab:
 }
 void student_menu(string username)
 {
-    string id, batch;
+    string id, batch, name;
     for (auto &x : Student)
     {
         if (x.username == username)
         {
             id = x.id;
             batch = x.year;
+            name = x.name;
             break;
         }
     }
@@ -1109,6 +1140,7 @@ void student_menu(string username)
              << "\n";
         cout << "\t\t\t  --------------------"
              << "\n";
+        cout << "\t\tWelcome Back " << BOLDYELLOW << name << reset << endl;
         cout << blue << "\t\t     1. PROFILE"
              << "\n";
         cout << "\t\t     2. GRADE DETAILS"
@@ -1407,14 +1439,14 @@ void student::search_record()
 {
     system("cls");
     string x;
-    cout << "\t\t\t  ---------------------------"
+    cout << "\n\n\t\t\t  ---------------------------"
          << "\n";
     cout << "\t\t\t   SEARCH  STUDENT INFORMATION"
          << "\n";
     cout << "\t\t\t  ---------------------------"
          << "\n";
 
-    cout << "ENTER STUDENT INFO( ID/ NAME/ SESSION ):";
+    cout << cyan << "\t\tENTER STUDENT INFO( ID/ NAME/ SESSION ):" << reset;
     cin >> x;
 
     int i = 1;
@@ -1492,17 +1524,18 @@ void student ::update_record()
     bool found = false;
     system("cls");
     cout
-        << "\t\t\t  ---------------------------------------"
+        << "\n\n\t\t\t  ---------------------------------------"
         << "\n";
     cout << "\t\t\t    UPDATE STUDENT INFORMATION "
          << "\n";
     cout << "\t\t\t  --------------------------------------"
          << "\n";
     string x;
-    cout << "ENTER STUDENT ID:";
+    cout << green << "\t\tENTER STUDENT ID:" << cyan;
     cin >> x;
+    cout << reset;
     int n = 1;
-    for (auto s : Student)
+    for (auto &s : Student)
     {
         if (s.id == x)
         {
@@ -1513,7 +1546,79 @@ void student ::update_record()
     }
     if (found)
     {
-        goto ab;
+
+        while (1)
+        {
+            system("cls");
+            string choice;
+            //---------------! BUG Detected---------------------------//
+            cout
+                << "\t\t\t  ---------------------------------------"
+                << "\n";
+            cout << "\t\t\t    UPDATE OPTION "
+                 << "\n";
+            cout << "\t\t\t  --------------------------------------"
+                 << "\n";
+            cout << "\n\n\t\t 1.ID \n\t\t 2.NAME\n\t\t 3.SESSION\n\t\t 4.CONTRACT INFORMATION \n\t\t 5.Back\n\n ";
+
+            cout << green << "\n\n\t\tENTER UPDATE OPTION:" << cyan;
+            cout << reset;
+            cin >> choice;
+            string change;
+            if (choice == "1")
+            {
+                system("cls");
+                cout << "\n\n\t\tNEW ID:";
+                cin >> change;
+                Student[n - 1].id = change;
+                write_student();
+                system("cls");
+                cout << green << "\n\n\t\t Data Updated  Succesfully!" << reset << endl;
+                Sleep(1500);
+            }
+            else if (choice == "2")
+            {
+                system("cls");
+                cout << "\n\n\t\tNAME:";
+                cin.ignore();
+                getline(cin, change);
+                Student[n - 1].name = change;
+                write_student();
+                system("cls");
+                cout << green << "\n\n\t\t Data Updated  Succesfully!" << reset << endl;
+                Sleep(1500);
+            }
+            else if (choice == "3")
+            {
+                system("cls");
+                cout << "\n\n\t\tSESSION:";
+                cin >> change;
+                Student[n - 1].year = change;
+                write_student();
+                system("cls");
+                cout << green << "\n\n\t\t Data Updated  Succesfully!" << reset << endl;
+                Sleep(1500);
+            }
+            else if (choice == "4")
+            {
+                system("cls");
+                cout << "\n\n\t\tNEW CONTRACT INFORMATION:";
+                cin >> change;
+                Student[n - 1].contractInfo = change;
+                write_student();
+                system("cls");
+                cout << green << "\n\n\t\t Data Updated  Succesfully!" << reset << endl;
+                Sleep(1500);
+            }
+            else if (choice == "5")
+            {
+                return;
+            }
+            else
+            {
+                cout << "\n\n\t\t" << red << "Invalid Option" << reset << endl;
+            }
+        }
     }
     else
     {
@@ -1521,77 +1626,6 @@ void student ::update_record()
         cout << red << "NO MATCH FOUND" << reset << endl;
         Sleep(1500);
         return;
-    }
-
-    int choice;
-    //---------------! BUG Detected---------------------------//
-ab:
-    cout
-        << "\t\t\t  ---------------------------------------"
-        << "\n";
-    cout << "\t\t\t    UPDATE OPTION "
-         << "\n";
-    cout << "\t\t\t  --------------------------------------"
-         << "\n";
-    cout << "\n\n\t\t 1.ID  \n\t\t 2.NAME\n\n\t\t 3.SESSION\n\t\t 4. CONTRACT INFORMATION \n\t\t  5. Back\n\n ";
-
-    while (1)
-    {
-        cout << "\n\nENTER UPDATE OPTION:";
-        cin >> choice;
-        string change;
-        if (choice == 1)
-        {
-            system("cls");
-            cout << "\n\n\t\tNEW ID:";
-            cin >> change;
-            Student[n - 1].id = change;
-            write_student();
-            system("cls");
-            cout << green << "\n\n Data Updated  Succesfully!" << reset << endl;
-            Sleep(1500);
-        }
-        else if (choice == 2)
-        {
-            system("cls");
-            cout << "\n\n\t\tNAME:";
-            cin >> change;
-            Student[n - 1].name = change;
-            write_student();
-            system("cls");
-            cout << green << "\n\n Data Updated  Succesfully!" << reset << endl;
-            Sleep(1500);
-        }
-        else if (choice == 3)
-        {
-            system("cls");
-            cout << "\n\n\t\tSESSION:";
-            cin >> change;
-            Student[n - 1].year = change;
-            write_student();
-            system("cls");
-            cout << green << "\n\n Data Updated  Succesfully!" << reset << endl;
-            Sleep(1500);
-        }
-        else if (choice == 4)
-        {
-            system("cls");
-            cout << "\n\n\t\tNEW CONTRACT INFORMATION:";
-            cin >> change;
-            Student[n - 1].contractInfo = change;
-            write_student();
-            system("cls");
-            cout << green << "\n\n Data Updated  Succesfully!" << reset << endl;
-            Sleep(1500);
-        }
-        else if (choice == 5)
-        {
-            return;
-        }
-        else
-        {
-            cout << "\n\n\t\t" << red << "Invalid Option" << reset << endl;
-        }
     }
 }
 
@@ -1851,9 +1885,11 @@ void grade::add_grade(string name)
             {
                 found = true;
                 grd.code = code;
-                grd.quiz = "0";
-                grd.assignment = "0";
-                grd.final = "0";
+                grd.quiz = "";
+                grd.assignment = "";
+                grd.final = "";
+                grd.total_attendence = "";
+                grd.present_attendence = "";
                 break;
             }
         }
@@ -2273,7 +2309,7 @@ void grade::grade_book(string id, string n)
         cout << green << "\n\t\tSTUDENT NAME: " << cyan;
         cout << name;
         cout << green << "\n\t\t  DEPERTMENT: " << cyan;
-        cout << id;
+        cout << "CSE";
         cout << green << "\n\t\t     SESSION: " << cyan;
         cout << year;
         cout << green << "\n\t\t    CONTRACT: " << cyan;
@@ -2289,10 +2325,19 @@ void grade::grade_book(string id, string n)
         cout << "\t\t--------------------------------------------------------------------------------------------------------------\n"; // 106
         cout << "\t\t Sl.   COURSE CODE                   CORSE TITLE                COURSE TEACHER          CREDIT   GRADE    GPA";
         cout << "\n\t\t--------------------------------------------------------------------------------------------------------------\n";
-        for (auto x : Grade)
+        for (auto &x : Grade)
         {
+
             if (x.id == id && x.semester[1] == n[0])
             {
+                grd.code = x.code;
+                grd.credit = x.credit;
+                grd.title = x.title;
+                grd.assignment = x.assignment;
+                grd.quiz = x.quiz;
+                grd.final = x.final;
+                grd.grade = x.grade;
+                TempGrade.push_back(grd);
                 cout << "\t\t" << i << "   " << x.code << "                                                                          " << x.credit << "  " << x.grade << "\n";
                 i++;
             }
@@ -2310,44 +2355,54 @@ void grade::grade_book(string id, string n)
         {
             int n = stoi(year);
             n -= 1;
-            // cout << "i\n";
+
+            string title, teacher;
+
             for (auto &x : CourseInfo)
             {
-                if (x.code == Grade[n].code)
+                if (x.code == TempGrade[n].code)
                 {
+                    title = x.title;
                     a = x.title.length();
                     break;
                 }
             }
+            for (auto &x : Course)
+            {
+                if (x.code == TempGrade[n].code)
+                {
+                    teacher = x.teacher;
+                    break;
+                }
+            }
             b = 15;
-            string title = "Fundamentals of Computers and Computing";
             int mx = max(a, b);
             a = mx + 23;
-            dash_generator(a);
-            cout << "\t\t  Course Code       : " << Grade[n].code;
-            space_generator(Grade[n].code, mx);
-            dash_generator(a);
-            cout << "\t\t  Course Title      :  " << title;
-            space_generator(title, mx);
-            dash_generator(a);
-            cout << "\t\t  Course Teacher   : " << Grade[n].title;
-            space_generator(Grade[n].title, mx);
-            dash_generator(a);
-            cout << "\t\t  Quiz Mark       : " << Grade[n].quiz;
-            space_generator(Grade[n].quiz, mx);
-            dash_generator(a);
-            cout << "\t\t  Assignment Mark : " << Grade[n].assignment;
-            space_generator(Grade[n].assignment, mx);
-            dash_generator(a);
-            cout << "\t\t  Final Mark      : " << Grade[n].final;
-            space_generator(Grade[n].final, mx);
-            dash_generator(a);
-            cout << "\t\t  GPA              : " << Grade[n].grade;
-            space_generator(Grade[n].grade, mx);
-            dash_generator(a);
+            // dash_generator(a);
+            cout << "\t\t  Course Code       : " << TempGrade[n].code << endl;
+            // space_generator(TempGrade[n].code, mx);
+            // dash_generator(a);
+            cout << "\t\t  Course Title      : " << title << endl;
+            // space_generator(title, mx);
+            // dash_generator(a);
+            cout << "\t\t  Course Teacher   : " << teacher << endl;
+            // space_generator(TempGrade[n].title, mx);
+            // dash_generator(a);
+            cout << "\t\t  Quiz Mark       : " << TempGrade[n].quiz << endl;
+            // space_generator(TempGrade[n].quiz, mx);
+            // dash_generator(a);
+            cout << "\t\t  Assignment Mark : " << TempGrade[n].assignment << endl;
+            // space_generator(TempGrade[n].assignment, mx);
+            // dash_generator(a);
+            cout << "\t\t  Final Mark      : " << TempGrade[n].final << endl;
+            // space_generator(TempGrade[n].final, mx);
+            // dash_generator(a);
+            cout << "\t\t  GPA              : " << TempGrade[n].grade << endl;
+            // space_generator(TempGrade[n].grade, mx);
+            // dash_generator(a);
         }
 
-        cout << "Press Any Key to back:";
+        cout << "\nPress Any Key to back:";
         cin >> year;
     }
 }
@@ -2455,22 +2510,39 @@ void grade::batch_report_main(string session, string sem)
 }
 
 /*-----------Attendence-------*/
-void grade::take_attendence()
+void grade::take_attendence(string name)
 {
     string date, present;
-    cout << "\t\t\t  -------------------------------"
+    cout << "\n\n\t\t\t  -------------------------------"
          << "\n";
     cout << "\t\t\t   Take  ATTENDENCE "
          << "\n";
     cout << "\t\t\t  -------------------------------"
          << "\n\n";
-    cout << "\t\t Enter Course Code: ";
+    cout << green << "\t\t Enter Course Code: " << reset;
     cin >> code;
     // Check Teacher is valid for this course
+    bool found = false;
+    for (auto &x : Course)
+    {
+        if (x.teacher == name)
+        {
+            found = true;
+            break;
+        }
+    }
+    if (!found)
+    {
+        cout << red << "\n\n\n\t\t\t"
+             << "You are not assign to this Course." << reset << endl;
+        Sleep(1500);
+        return;
+    }
+
     cout << "\t\t Enter Session: ";
     cin >> year;
     cout << "\t\t Enter Date: ";
-    cin >> code;
+    cin >> grade;
     bool attend = false;
     for (int i = 0; i < Student.size(); i++)
     {
@@ -2478,17 +2550,42 @@ void grade::take_attendence()
         {
             cout << Student[i].name << " (P/A):";
             cin >> present;
-            if (present == "A")
+            markAttendence(Student[i].id, present, code);
+        }
+    }
+}
+void grade::markAttendence(string id, string attend, string code)
+{
+
+    for (auto &x : Grade)
+    {
+        if (x.id == id && x.code == code)
+        {
+            int a, b;
+            // Convert total attendance to an integer, or default to 0 if empty
+            a = (x.total_attendence == "") ? 0 : stoi(x.total_attendence);
+            a += 1;
+            // Convert integer 'a' back to string and assign it to total_attendence
+            x.total_attendence = to_string(a);
+
+            if (attend == "p" || attend == "P")
             {
-                attend = true;
+                // Convert present attendance to an integer, or default to 0 if empty
+                b = (x.present_attendence == "") ? 0 : stoi(x.present_attendence);
+                b += 1;
+                // Convert integer 'b' back to string and assign it to present_attendence
+                x.present_attendence = to_string(b);
             }
         }
     }
+    cout << "\n\n\n\t\t\t" << green << "Attendence Taken Succesfully" << reset << endl;
+    Sleep(3000);
+    write_grade();
 }
 void grade::attendence_report()
 {
     system("cls");
-    cout << "\t\t\t  -------------------------------"
+    cout << "\n\n\t\t\t  -------------------------------"
          << "\n";
     cout << "\t\t\t    ATTENDENCE REPORT"
          << "\n";
@@ -2521,7 +2618,19 @@ void grade::attendence_report()
 }
 void grade::attenndence_individual()
 {
-    cin >> year;
+    system("cls");
+    cout << "Enter STUDENT ID:";
+    cin >> id;
+    cout << "Enter Course Code:";
+    cin >> code;
+
+    for (auto &x : Student)
+    {
+        if (x.id == id)
+        {
+            showAttendence(x.id, x.name, code);
+        }
+    }
 }
 void grade::attenndence_batch_wise()
 {
@@ -2545,6 +2654,7 @@ void grade::showAttendence(string id, string name, string code)
 {
     for (auto &x : Grade)
     {
+        double per;
         if (x.id == id && x.code == code)
         {
             try
@@ -2554,17 +2664,21 @@ void grade::showAttendence(string id, string name, string code)
 
                 if (totalAttendance != 0) // To avoid division by zero
                 {
-                    cout << name << " " << x.code << " " << (presentAttendance / totalAttendance) * 100.0 << "%" << endl;
+                    per = (presentAttendance / totalAttendance) * 100.0;
+                    cout << name << " " << x.code << " " << per << "%  " << (per >= 70.00) ? cout << BOLDGREEN << "Eligible" : cout << BOLDRED << "NOT Eligible";
+                    cout << reset << endl;
                 }
                 else
                 {
-                    cout << "Error: Total attendance cannot be zero for " << name << " " << x.code << endl;
+                    cout << "Error: Total attendance cannot be zero for " << name << " " << x.code << (presentAttendance / totalAttendance) * 100.0 << "%" << endl;
                 }
             }
             catch (const std::invalid_argument &e)
             {
                 cout << "Error: Invalid attendance data for " << name << " " << x.code << endl;
             }
+            cout << "PRESS ANY KEY TO BACK";
+            cin >> year;
         }
     }
 }

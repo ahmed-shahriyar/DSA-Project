@@ -343,6 +343,7 @@ public:
     void teacherManagement();
     void addTeacher();
     void removeTeacher();
+    void facultyMembers();
 } obj;
 void student_to_grade()
 {
@@ -395,6 +396,11 @@ void dash_generator(int n)
         cout << "-";
     }
     cout << "\n";
+}
+void back(string s)
+{
+    if (s == "B" || s == "b")
+        return;
 }
 
 void admin_login();
@@ -595,16 +601,31 @@ void Admin ::addTeacher()
     getline(cin, master.id);
     cout << blue << "\t\tNAME OF THE TEACHER    : " << reset;
     getline(cin, master.name);
+    back(master.name);
     cout << blue << "\t\tDEPARTMENT    : " << reset;
     getline(cin, master.dept);
+    back(master.dept);
     cout << blue << "\t\tADDRESS   : " << reset;
     getline(cin, master.address);
+    back(master.address);
     cout << blue << "\t\tPHONE   : " << reset;
     getline(cin, master.phone);
+    back(master.phone);
     cout << blue << "\t\tUSERNAME   : " << reset;
     getline(cin, master.username);
+    for (auto &x : Teacher)
+    {
+        if (x.username == master.username)
+        {
+            cout << BOLDRED << "\n\n\n\t\t\tUsername not avaliable." << reset;
+            Sleep(3000);
+            return;
+        }
+    }
+    back(master.username);
     cout << blue << "\t\tPASSWORD   : " << reset;
     getline(cin, master.password);
+    back(master.password);
 
     Teacher.push_back(master);
     file.open("TeacherDeatail.csv", ios::app | ios ::out);
@@ -1053,10 +1074,15 @@ ab:
     cout << reset << "ENTER YOUR NAME:";
     cin.ignore();
     getline(cin, name);
+
     cout << "ENTER YOUR ID:";
     cin >> id;
+    if (id == "B" || id == "b")
+        return;
     cout << "ENTER YOUR SESSION:";
     cin >> year;
+    if (year == "B" || year == "b")
+        return;
     bool found = false;
     for (auto &x : Student)
     {
@@ -1084,6 +1110,8 @@ ab:
         }
         cout << "\n\t\t\t" << green << "Enter Password:" << cyan;
         cin >> pass;
+        if (pass == "B" || pass == "b")
+            return;
         cout << "\n\t\t\t" << green << "Re-Enter Password:" << cyan;
         cin >> confirm_pass;
         if (pass == confirm_pass)
@@ -1232,6 +1260,8 @@ void student ::grade_details(string Id, string batch)
                  << "\n\n";
             cout << "\t\t\tEnter Semester:";
             cin >> semester;
+            if (semester == "B" || id == "b")
+                return;
             grd.grade_book(Id, semester);
         }
         else if (n == "2")
@@ -1279,8 +1309,12 @@ void student::change_password(string username)
         found = false;
         cout << "\n\t\tENTER NEW PASSWORD:";
         cin >> newpass;
+        if (newpass == "B" || newpass == "b")
+            return;
         cout << "\n\t\tRe-ENTER PASSWORD TO CONFIRM:";
         cin >> confirm_pass;
+        if (confirm_pass == "B" || confirm_pass == "b")
+            return;
         if (newpass == confirm_pass)
         {
             found = true;
@@ -1377,13 +1411,33 @@ void add_record()
          << "\n\n";
     cout << "\t\tSTUDENT ID    :";
     cin >> id;
+    // CHeck ID Validity
+    for (auto &x : Student)
+    {
+        if (x.id == id)
+        {
+            cout << BOLDRED << "\n\n\n\t\t\tID Already Exist."
+                 << "Try a diffrent ID." << reset;
+            Sleep(3000);
+            return;
+        }
+    }
+    if (id == "B" || id == "b")
+        return;
     cout << "\n\t\tNAME OF THE STUDENT    :";
     cin.ignore();
     getline(cin, name);
+    if (name == "B" || name == "b")
+        return;
+    back(name);
     cout << "\t\tSESSION    :";
     cin >> year;
+    if (year == "B" || year == "b")
+        return;
     cout << "\t\tCONTACT INFORMATION    :";
     cin >> contactInfo;
+    if (contactInfo == "B" || contactInfo == "b")
+        return;
     add_student(head, tail, name, id, year, contactInfo);
 }
 void add_student(node *&head, node *&tail, string name, string studentID, string year, string contactInfo)
@@ -1631,48 +1685,51 @@ void student ::update_record()
 
 void course::course_dashboard()
 {
-    system("cls");
-    char n;
-    cout << "\n\n\n\n\n";
-    cout << "\t\t\t\t\t       ---------------"
-         << "\n";
-    cout << "\t\t\t\t\t          COURSE MANAGEMENT"
-         << "\n";
-    cout << "\t\t\t\t\t       ---------------"
-         << "\n\n\n";
-    cout << "\t\t\t\t\t       SELECT OPTIONS"
-         << "\n\n";
-    cout << blue << "\t\t\t\t-------------------------------------------" << reset << "\n";
-    cout << "\t\t\t\t  1. ALL COURSE\t2.ASSIGN COURSE\t3. COURSE DETAILS"
-         << "\n";
-    cout << blue << "\t\t\t\t-------------------------------------------" << reset
-         << "\n\n";
-    cout << red << "\t\t\t\t            (PRESS 4 TO BACK)"
-         << "\n\n\n"
-         << reset;
-    cout << "\t\t\t\t\t     ENTER AN OPTION: ";
-    cin >> n;
-    switch (n)
+    while (1)
     {
-    case '1':
-        crs.all_course();
-        break;
-    case '2':
-        crs.assign_course();
-        break;
-    case '3':
-        crs.course_details();
-        break;
-    case '4':
-        return;
-        break;
-
-    default:
         system("cls");
-        cout << red << "\n\n\t\t\t\t\t\tWRONG OPTION!" << reset;
-        cout << "\n\n";
-        Sleep(1500);
-        break;
+        char n;
+        cout << "\n\n\n\n\n";
+        cout << "\t\t\t\t\t       ---------------"
+             << "\n";
+        cout << "\t\t\t\t\t          COURSE MANAGEMENT"
+             << "\n";
+        cout << "\t\t\t\t\t       ---------------"
+             << "\n\n\n";
+        cout << "\t\t\t\t\t       SELECT OPTIONS"
+             << "\n\n";
+        cout << blue << "\t\t\t\t-------------------------------------------" << reset << "\n";
+        cout << "\t\t\t\t  1. ALL COURSE\t2.ASSIGN COURSE\t3. COURSE DETAILS"
+             << "\n";
+        cout << blue << "\t\t\t\t-------------------------------------------" << reset
+             << "\n\n";
+        cout << red << "\t\t\t\t            (PRESS 4 TO BACK)"
+             << "\n\n\n"
+             << reset;
+        cout << "\t\t\t\t\t     ENTER AN OPTION: ";
+        cin >> n;
+        switch (n)
+        {
+        case '1':
+            crs.all_course();
+            break;
+        case '2':
+            crs.assign_course();
+            break;
+        case '3':
+            crs.course_details();
+            break;
+        case '4':
+            return;
+            break;
+
+        default:
+            system("cls");
+            cout << red << "\n\n\t\t\t\t\t\tWRONG OPTION!" << reset;
+            cout << "\n\n";
+            Sleep(1500);
+            break;
+        }
     }
 }
 void course::assign_course()
@@ -1687,10 +1744,14 @@ void course::assign_course()
          << "\n\n\n";
     cout << "ENTER DEPERTMENT:";
     cin >> crs.dept;
+    if (crs.dept == "B" || crs.dept == "b")
+        return;
     bool found = false;
 ab:
     cout << "ENTER COUSE CODE:";
     cin >> code;
+    if (code == "B" || code == "b")
+        return;
     for (auto x : CourseInfo)
     {
         if (x.code == code)
@@ -1752,7 +1813,34 @@ void course::all_course()
     system("cls");
     cout << blue << "\n\n\t\t---------------------------------------------------------------\n"
          << reset;
-    cout << "                             COURSE DETAILS\n";
+    cout << "                         All  COURSE DETAILS\n";
+    cout << blue << "\n\n\t\t---------------------------------------------------------------\n"
+         << reset;
+
+    // Head-line unattached
+    for (auto &x : CourseInfo)
+    {
+        cout << x.code << " " << x.title << " " << x.semester << " " << x.credit << " " << endl;
+    }
+    string s;
+    cout << BOLDYELLOW << "\nPress (Y) to  to see Faculty Members" << reset << " / Press 0 to back ";
+    cin >>
+        s;
+    if (s == "Y" || s == "y")
+    {
+        obj.facultyMembers();
+    }
+    else
+    {
+        return;
+    }
+}
+void course::course_details()
+{
+    system("cls");
+    cout << blue << "\n\n\t\t---------------------------------------------------------------\n"
+         << reset;
+    cout << "                            ASSIGN  COURSE \n";
     cout << blue << "\n\n\t\t---------------------------------------------------------------\n"
          << reset;
 
@@ -1766,21 +1854,16 @@ void course::all_course()
         i++;
     }
     string s;
-    cout << "Press any key to return";
+    cout << "Press (Y) to  Assign new Course  /Press 0 to back ";
     cin >> s;
-    return;
-}
-void course::course_details()
-{
-    for (auto x : CourseInfo)
+    if (s == "Y" || s == "y")
     {
-        cout << x.code << endl;
+        crs.assign_course();
     }
-    for (auto x : Teacher)
+    else
     {
-        cout << x.name << endl;
+        return;
     }
-    cin >> title;
 }
 /*-------------------GRADE MANAGEMENT_____________________*/
 void grade_management(string name)
@@ -2266,7 +2349,7 @@ void grade::individual_report()
          << "\n\n";
     cout << cyan << "\t\tENTER STUDENT ID:" << green;
     cin >> id;
-    cout << blue << "ENTER SEMESTER(Press 0 for All):" << green;
+    cout << blue << "ENTER SEMESTER:" << green;
     cin >> sem;
     cout << reset;
 
@@ -2499,6 +2582,8 @@ void grade::batch_report_main(string session, string sem)
     string id;
     cout << "Enter ID for Detail report / Press 0 to back:";
     cin >> id;
+    if (id == "B" || id == "b")
+        return;
     if (id == "0")
     {
         return;
@@ -2541,8 +2626,12 @@ void grade::take_attendence(string name)
 
     cout << "\t\t Enter Session: ";
     cin >> year;
+    if (year == "B" || year == "b")
+        return;
     cout << "\t\t Enter Date: ";
     cin >> grade;
+    if (grade == "B" || grade == "b")
+        return;
     bool attend = false;
     for (int i = 0; i < Student.size(); i++)
     {
@@ -2623,7 +2712,6 @@ void grade::attenndence_individual()
     cin >> id;
     cout << "Enter Course Code:";
     cin >> code;
-
     for (auto &x : Student)
     {
         if (x.id == id)
@@ -2639,7 +2727,6 @@ void grade::attenndence_batch_wise()
     cin >> code;
     cout << "Enter SESSION:";
     cin >> year;
-
     for (auto &x : Student)
     {
         if (x.year == year)
@@ -2647,7 +2734,6 @@ void grade::attenndence_batch_wise()
             showAttendence(x.id, x.name, code);
         }
     }
-
     cin >> year;
 }
 void grade::showAttendence(string id, string name, string code)
@@ -2682,7 +2768,6 @@ void grade::showAttendence(string id, string name, string code)
         }
     }
 }
-
 void Admin::teacherManagement()
 {
 
@@ -2699,6 +2784,7 @@ void Admin::teacherManagement()
         cout << "\t\t     1. ADD TEACHER "
              << "\n";
         cout << "\t\t     2.REMOVE TEACHER\n";
+        cout << "\t\t     3.FACULTY MEMBERS\n";
         cout << red << "\t\t     0. BACK"
              << "\n\n"
              << reset;
@@ -2713,6 +2799,10 @@ void Admin::teacherManagement()
         {
             obj.removeTeacher();
         }
+        else if (n == "3")
+        {
+            obj.facultyMembers();
+        }
         else if (n == "0")
         {
             return;
@@ -2724,5 +2814,32 @@ void Admin::teacherManagement()
             cout << "\n\n";
             Sleep(1500);
         }
+    }
+}
+void Admin::facultyMembers()
+{
+    cout << "\t\t\t  -------------------------------"
+         << "\n";
+    cout << BOLDGREEN << "\t\t\t     FACULTY MEMBERS DETAILS"
+         << "\n"
+         << reset;
+    cout << "\t\t\t  -------------------------------"
+         << "\n\n";
+    // Headline Missing
+    for (auto &x : Teacher)
+    {
+        cout << x.id << " " << x.name << " " << x.dept << " " << x.address << " " << x.phone << endl;
+    }
+
+    // Hav to add to see assign course details;
+    cout << "Press (Y) to see Assign Course Details /Press 0 to back ";
+    cin >> t_name;
+    if (t_name == "Y" || t_name == "y")
+    {
+        crs.course_details();
+    }
+    else
+    {
+        return;
     }
 }

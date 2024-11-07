@@ -558,7 +558,7 @@ void admin_menu()
                 admin_menu();
             else if (n == "1")
                 obj.teacherManagement();
-            else if (n == "3")
+            else if (n == "2")
                 crs.course_dashboard();
             else
             {
@@ -1232,7 +1232,7 @@ void student ::grade_details(string Id, string batch)
                  << "\n\n";
             cout << "\t\t\tEnter Semester:";
             cin >> semester;
-            grd.grade_book(id, semester);
+            grd.grade_book(Id, semester);
         }
         else if (n == "2")
         {

@@ -227,6 +227,8 @@ class teacher
 {
 public:
     string id, name, dept, address, phone, username, password;
+    // Method
+    void teacherProfile(string name);
 } master;
 /*--------------- Class :: Course------------------------*/
 class course
@@ -340,6 +342,7 @@ class Admin
     fstream file, tempfile;
 
 public:
+    void facultyManagement();
     void teacherManagement();
     void addTeacher();
     void removeTeacher();
@@ -477,6 +480,13 @@ void admin_login()
 {
     system("cls");
     string username, pass;
+    cout
+        << "\n\n\t\t\t\t\t  -------------------------------"
+        << "\n";
+    cout << BOLDMAGENTA << "\t\t\t\t\t     Please Login to Continue"
+         << reset << "\n";
+    cout << "\t\t\t\t\t  ------------------------------"
+         << "\n";
     cout << green << "\n\n\t\t\t\t\t   ENTER THE USERNAME: " << reset;
     cin >> username;
     if (username == "ahmed")
@@ -497,6 +507,7 @@ void admin_login()
             cout << green << s[i];
             Sleep(150);
         }
+        cout << reset;
         Sleep(1000);
         admin_menu();
     }
@@ -536,47 +547,52 @@ void admin_menu()
              << reset;
         cout << "\t\t     ENTER YOUR OPTION: ";
         cin >> c;
-        if (c == "0")
-            return;
-        else if (c == "1")
+        if (c == "1")
             student_info();
         else if (c == "2")
-        {
-            string n;
-            system("cls");
-            cout << "\n\n";
-            cout << "\t\t\t  ---------------------------"
-                 << "\n";
-            cout << "\t\t\t      FACULTY MANAGEMENT"
-                 << "\n";
-            cout << "\t\t\t  ---------------------------"
-                 << "\n";
-            cout << "\t\t     1. TEACHER MANAGEMENT"
-                 << "\n";
-            cout << "\t\t     2. COURSE\n";
-            cout << red << "\t\t     0. BACK"
-                 << "\n\n"
-                 << reset;
-            cout << "\t\t     ENTER YOUR OPTION: ";
-            cin >> n;
-
-            if (n == "0")
-                admin_menu();
-            else if (n == "1")
-                obj.teacherManagement();
-            else if (n == "2")
-                crs.course_dashboard();
-            else
-            {
-                system("cls");
-                cout << red << "\n\n\t\t\t\t\t\tWRONG OPTION!" << reset;
-                cout << "\n\n";
-                Sleep(1500);
-            }
-        }
-
-        if (c == "3")
+            obj.facultyManagement();
+        else if (c == "3")
             grade_management("admin");
+        else if (c == "0")
+            return;
+        else
+        {
+            system("cls");
+            cout << red << "\n\n\t\t\t\t\t\tWRONG OPTION!" << reset;
+            cout << "\n\n";
+            Sleep(1500);
+        }
+    }
+}
+// Faculty Management
+void Admin::facultyManagement()
+{
+    while (1)
+    {
+        string n;
+        system("cls");
+        cout << "\n\n";
+        cout << "\t\t\t  ---------------------------"
+             << "\n";
+        cout << "\t\t\t      FACULTY MANAGEMENT"
+             << "\n";
+        cout << "\t\t\t  ---------------------------"
+             << "\n";
+        cout << "\t\t     1. TEACHER MANAGEMENT"
+             << "\n";
+        cout << "\t\t     2. COURSE  MANAGEMENT\n";
+        cout << red << "\t\t     0. BACK"
+             << "\n\n"
+             << reset;
+        cout << "\t\t     ENTER YOUR OPTION: ";
+        cin >> n;
+
+        if (n == "0")
+            admin_menu();
+        else if (n == "1")
+            obj.teacherManagement();
+        else if (n == "2")
+            crs.course_dashboard();
         else
         {
             system("cls");
@@ -869,7 +885,7 @@ void teacher_menu(string name)
     while (1)
     {
         system("cls");
-        int n;
+        string n;
         cout
             << "\t\t\t  --------------------"
             << "\n";
@@ -877,7 +893,7 @@ void teacher_menu(string name)
              << "\n";
         cout << "\t\t\t  --------------------"
              << "\n";
-        cout << "\t\t  Welcome back " << cyan << name << reset << " ,Sir"
+        cout << "\t\t  Welcome back " << BOLDCYAN << name << reset << " ,Sir"
              << "\n\n";
 
         cout << blue << "\t\t     1. STUDENT MANAGEMENT"
@@ -893,40 +909,31 @@ void teacher_menu(string name)
              << reset;
         cout << "\t\t     ENTER YOUR OPTION: ";
         cin >> n;
-        switch (n)
-        {
-        case 1:
+        if (n == "1")
             student_info();
-            break;
-        case 2:
+        else if (n == "2")
             grade_management(name);
-            break;
-        case 3:
+        else if (n == "3")
             attendence(name);
-            break;
-        case 4:
-            //  student_info();
-            break;
-        case 5:
+        else if (n == "4")
+            master.teacherProfile(name);
+        else if (n == "5")
             main();
-            break;
-
-        default:
+        else
+        {
             system("cls");
             cout << red << "\n\n\t\t\t\t\t\tWRONG OPTION!" << reset;
             cout << "\n\n";
             Sleep(1500);
-            break;
         }
     }
 }
 void student_info()
 {
-
     while (1)
     {
         system("cls");
-        int n;
+        string n;
         cout
             << "\t\t\t  ---------------------------"
             << "\n";
@@ -944,40 +951,42 @@ void student_info()
              << "\n";
         cout << "\t\t     5. Display All Records"
              << "\n";
-        cout << "\t\t     6. BACK"
+        cout << "\t\t     0. BACK"
              << "\n\n"
              << reset;
         cout << "\t\t     ENTER YOUR OPTION: ";
         cin >> n;
-        switch (n)
-        {
-        case 1:
+        if (n == "1")
             add_record();
-            break;
-        case 2:
+        else if (n == "2")
             stu.search_record();
-            break;
-        case 3:
+        else if (n == "3")
             stu.update_record();
-            break;
-        case 4:
+        else if (n == "4")
             stu.remove_record();
-            break;
-        case 5:
+        else if (n == "5")
             stu.all_record();
-            break;
-        case 6:
+        else if (n == "0")
             return;
-            break;
-
-        default:
+        else
+        {
             system("cls");
             cout << red << "\n\n\t\t\t\t\t\tWRONG OPTION!" << reset;
             cout << "\n\n";
             Sleep(1500);
-            break;
         }
     }
+}
+void teacher::teacherProfile(string name)
+{
+    system("cls");
+    cout << "Hello," << BOLDGREEN << name << reset << " ,Sir.";
+    /*
+      1. Teacher can see his Personal Details.
+      2. Teacher can Update his Contract Number
+      3. Teacher can See his Assign Courses.
+    */
+    cin >> id;
 }
 /*----------------------Student Part----------------------*/
 void student::student_page()
@@ -1037,8 +1046,16 @@ void student_login()
          << "\n";
     cout << green << "\n\n\t\t\t\t\t   ENTER USERNAME: " << reset;
     cin >> username;
+    if (username == "B" || username == "b")
+    {
+        return;
+    }
     cout << green << "\n\n\t\t\t\t\t   ENTER THE PASSWORD: " << reset;
     cin >> pass;
+    if (pass == "B" || pass == "b")
+    {
+        return;
+    }
     for (auto &x : Student)
     {
         if (x.username == username && x.pass == pass)
@@ -1460,6 +1477,8 @@ void add_student(node *&head, node *&tail, string name, string studentID, string
     stu.year = newnode->year;
     stu.contractInfo = newnode->contactInfo;
     stu.roll = stoi(stu.id.substr(6, 3));
+    stu.username = "";
+    stu.pass = "";
     Student.push_back(stu);
     mergeSort(Student, 0, Student.size() - 1);
     write_student();
@@ -2831,7 +2850,7 @@ void Admin::facultyMembers()
         cout << x.id << " " << x.name << " " << x.dept << " " << x.address << " " << x.phone << endl;
     }
 
-    // Hav to add to see assign course details;
+    // Have to add to see assign course details;
     cout << "Press (Y) to see Assign Course Details /Press 0 to back ";
     cin >> t_name;
     if (t_name == "Y" || t_name == "y")

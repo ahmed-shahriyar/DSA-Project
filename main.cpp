@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 #include <windows.h>
+#include <iomanip>
+#include <conio.h>
 using namespace std;
 const string green = "\033[32m";
 const string reset = "\033[0m";
@@ -229,6 +231,7 @@ public:
     string id, name, dept, address, phone, username, password;
     // Method
     void teacherProfile(string name);
+    void teacherStudentInfo();
 } master;
 /*--------------- Class :: Course------------------------*/
 class course
@@ -347,6 +350,7 @@ public:
     void addTeacher();
     void removeTeacher();
     void facultyMembers();
+    void adminGradeManagement();
 } obj;
 void student_to_grade()
 {
@@ -480,6 +484,7 @@ void admin_login()
 {
     system("cls");
     string username, pass;
+    bool showPassword = false;
     cout
         << "\n\n\t\t\t\t\t  -------------------------------"
         << "\n";
@@ -487,14 +492,37 @@ void admin_login()
          << reset << "\n";
     cout << "\t\t\t\t\t  ------------------------------"
          << "\n";
-    cout << green << "\n\n\t\t\t\t\t   ENTER THE USERNAME: " << reset;
+    cout << "\n\n\t\t\t\t\t   ENTER THE USERNAME: ";
     cin >> username;
     if (username == "ahmed")
     {
         goto ab;
     }
-    cout << green << "\n\n\t\t\t\t\t   ENTER THE PASSWORD: " << reset;
-    cin >> pass;
+    cout << "\n\n\t\t ENTER THE PASSWORD (Press Tab to Show/Hide): ";
+    char ch;
+    while ((ch = _getch()) != '\r')
+    { // '\r' is the Enter key
+        if (ch == '\t')
+        { // Toggle visibility on Tab key
+            showPassword = !showPassword;
+            // Refresh the password display
+            cout << "\r\t\t\t\t\t   ENTER THE PASSWORD (Press Tab to Show/Hide): ";
+            for (char c : pass)
+            {
+                cout << (showPassword ? c : '*');
+            }
+        }
+        else if (ch == '\b' && !pass.empty())
+        {                    // Handle backspace
+            cout << "\b \b"; // Erase the last '*' or character
+            pass.pop_back();
+        }
+        else if (ch != '\b' && ch != '\t')
+        { // Normal character input
+            pass.push_back(ch);
+            cout << (showPassword ? ch : '*'); // Show character or '*'
+        }
+    }
     cout << "\n";
     if (username == "admin" && pass == "admin")
     {
@@ -552,7 +580,7 @@ void admin_menu()
         else if (c == "2")
             obj.facultyManagement();
         else if (c == "3")
-            grade_management("admin");
+            obj.adminGradeManagement();
         else if (c == "0")
             return;
         else
@@ -588,7 +616,7 @@ void Admin::facultyManagement()
         cin >> n;
 
         if (n == "0")
-            admin_menu();
+            return;
         else if (n == "1")
             obj.teacherManagement();
         else if (n == "2")
@@ -718,11 +746,58 @@ void Admin::removeTeacher()
     }
     Sleep(1500);
 }
+
+/*Admin----------->Grademanagement*/
+void Admin::adminGradeManagement()
+{
+
+    while (1)
+    {
+        system("cls");
+        string n;
+        cout
+            << "\t\t\t  ---------------------------"
+            << "\n";
+        cout << "\t\t\t     GRADE MANAGEMENT"
+             << "\n";
+        cout << "\t\t\t  ---------------------------"
+             << "\n";
+        cout << "\t\t     1. GARDE SHEET"
+             << "\n";
+        cout << "\t\t     2. SEARCH GRADE"
+             << "\n";
+        cout << "\t\t     3. GRADE REPORT"
+             << "\n";
+        cout << "\t\t     0. BACK"
+             << "\n\n"
+             << reset;
+        cout << green << "\t\t     ENTER YOUR OPTION: " << reset;
+        cin >> n;
+
+        if (n == "1")
+            grd.update_grade();
+
+        else if (n == "2")
+            grd.search_grade();
+        else if (n == "3")
+            grd.grade_report();
+        else if (n == "0")
+            return;
+
+        else
+        {
+            system("cls");
+            cout << red << "\n\n\t\t\t\t\t\tWRONG OPTION!" << reset;
+            cout << "\n\n";
+            Sleep(1500);
+        }
+    }
+}
 void teacher_login()
 {
     system("cls");
     string username, pass, choice, name;
-    bool found = false;
+    bool found = false, showPassword = false;
 login:
     cout << "\t\t\t  --------------------"
          << "\n";
@@ -730,11 +805,35 @@ login:
          << "\n";
     cout << "\t\t\t  --------------------\n\n";
 
-    cout << green << "\t\tEnter Username:" << blue;
+    cout << green << "\t\t\t\t  Enter Username:" << blue;
     cin >> username;
     cin.ignore();
-    cout << green << "\t\tEnter Password:" << blue;
-    cin >> pass;
+    cout << "\n\n\t\t ENTER THE PASSWORD (Press Tab to Show/Hide): ";
+    char ch;
+    while ((ch = _getch()) != '\r')
+    { // '\r' is the Enter key
+        if (ch == '\t')
+        { // Toggle visibility on Tab key
+            showPassword = !showPassword;
+            // Refresh the password display
+            cout << "\r\t\t\t\t\t   ENTER THE PASSWORD (Press Tab to Show/Hide): ";
+            for (char c : pass)
+            {
+                cout << (showPassword ? c : '*');
+            }
+        }
+        else if (ch == '\b' && !pass.empty())
+        {                    // Handle backspace
+            cout << "\b \b"; // Erase the last '*' or character
+            pass.pop_back();
+        }
+        else if (ch != '\b' && ch != '\t')
+        { // Normal character input
+            pass.push_back(ch);
+            cout << (showPassword ? ch : '*'); // Show character or '*'
+        }
+    }
+    cout << "\n";
     cout << blue << "\n\n\t\t ------------------------------------------------------------------\n"
          << reset;
     cout << "\t\t|" << green << "     1. Login \t " << reset << "|\t" << blue << "   2.Cancel \t " << reset << " |\t " << red << " 0.EXIT " << reset << "         | ";
@@ -928,6 +1027,7 @@ void teacher_menu(string name)
         }
     }
 }
+/*Admin ---->Student Info*/
 void student_info()
 {
     while (1)
@@ -977,6 +1077,46 @@ void student_info()
         }
     }
 }
+/*Teacher Menu-->Student Information*/
+void teacher::teacherStudentInfo()
+{
+    while (1)
+    {
+        system("cls");
+        string n;
+        cout
+            << "\t\t\t  ---------------------------"
+            << "\n";
+        cout << "\t\t\t     STUDENT INFORMATION"
+             << "\n";
+        cout << "\t\t\t  ---------------------------"
+             << "\n";
+        cout << "\t\t     1. Find a Student"
+             << "\n";
+        cout << "\t\t     2. Display All Records"
+             << "\n";
+        cout << "\t\t     0. BACK"
+             << "\n\n"
+             << reset;
+        cout << "\t\t     ENTER YOUR OPTION: ";
+        cin >> n;
+        if (n == "1")
+            stu.search_record();
+
+        else if (n == "2")
+            stu.all_record();
+        else if (n == "0")
+            return;
+        else
+        {
+            system("cls");
+            cout << red << "\n\n\t\t\t\t\t\tWRONG OPTION!" << reset;
+            cout << "\n\n";
+            Sleep(1500);
+        }
+    }
+}
+
 void teacher::teacherProfile(string name)
 {
     system("cls");
@@ -1035,7 +1175,7 @@ void student::student_page()
 void student_login()
 {
     system("cls");
-    bool found = false;
+    bool found = false, showPassword = false;
     string username, pass;
     cout
         << "\n\n\t\t\t\t\t  -------------------------------"
@@ -1050,8 +1190,32 @@ void student_login()
     {
         return;
     }
-    cout << green << "\n\n\t\t\t\t\t   ENTER THE PASSWORD: " << reset;
-    cin >> pass;
+    cout << "\n\n\t\t ENTER THE PASSWORD (Press Tab to Show/Hide): ";
+    char ch;
+    while ((ch = _getch()) != '\r')
+    { // '\r' is the Enter key
+        if (ch == '\t')
+        { // Toggle visibility on Tab key
+            showPassword = !showPassword;
+            // Refresh the password display
+            cout << "\r\t\t\t\t\t   ENTER THE PASSWORD (Press Tab to Show/Hide): ";
+            for (char c : pass)
+            {
+                cout << (showPassword ? c : '*');
+            }
+        }
+        else if (ch == '\b' && !pass.empty())
+        {                    // Handle backspace
+            cout << "\b \b"; // Erase the last '*' or character
+            pass.pop_back();
+        }
+        else if (ch != '\b' && ch != '\t')
+        { // Normal character input
+            pass.push_back(ch);
+            cout << (showPassword ? ch : '*'); // Show character or '*'
+        }
+    }
+    cout << "\n";
     if (pass == "B" || pass == "b")
     {
         return;
@@ -1177,7 +1341,7 @@ void student_menu(string username)
     while (1)
     {
         system("cls");
-        int n;
+        string n;
         cout
             << "\t\t\t  --------------------"
             << "\n";
@@ -1192,32 +1356,28 @@ void student_menu(string username)
              << "\n";
         cout << "\t\t     3. CHANGE PASSWORD"
              << "\n";
-        cout << red << "\t\t     4. LOGOUT "
+        cout << "\t\t     4. FEE MANAGEMENT"
+             << "\n";
+        cout << red << "\t\t     0. LOGOUT "
              << "\n\n"
              << reset;
         cout << "\t\t     ENTER YOUR OPTION: ";
-        cin >> n;
-        switch (n)
-        {
-        case 1:
+        if (n == "1")
             stu.profile(username);
-            break;
-        case 2:
+        else if (n == "2")
             stu.grade_details(id, batch);
-            break;
-        case 3:
+        else if (n == "3")
             stu.change_password(username);
-            break;
-        case 4:
+        else if (n == "4")
+            stu.change_password(username);
+        else if (n == "0")
             main();
-            break;
-
-        default:
+        else
+        {
             system("cls");
             cout << red << "\n\n\t\t\t\t\t\tWRONG OPTION!" << reset;
             cout << "\n\n";
             Sleep(1500);
-            break;
         }
     }
 }
@@ -1512,17 +1672,19 @@ void student::search_record()
 {
     system("cls");
     string x;
-    cout << "\n\n\t\t\t  ---------------------------"
-         << "\n";
-    cout << "\t\t\t   SEARCH  STUDENT INFORMATION"
-         << "\n";
-    cout << "\t\t\t  ---------------------------"
-         << "\n";
+    cout << "\n\n\t\t\t  ---------------------------\n";
+    cout << "\t\t\t   SEARCH  STUDENT INFORMATION\n";
+    cout << "\t\t\t  ---------------------------\n";
 
-    cout << cyan << "\t\tENTER STUDENT INFO( ID/ NAME/ SESSION ):" << reset;
-    cin >> x;
+    cout << cyan << "\t\tENTER STUDENT INFO (ID/ NAME/ SESSION): " << reset;
+    cin.ignore();
+    getline(cin, x);
+    if (x == "B" || x == "b")
+        return;
 
-    int i = 1;
+    // Convert input to lowercase
+    transform(x.begin(), x.end(), x.begin(), ::tolower);
+
     system("cls");
     bool found = false;
     cout << blue << "\n\n\t\t---------------------------------------------------------------\n"
@@ -1535,12 +1697,16 @@ void student::search_record()
     cout << blue << "\n\n\t\t---------------------------------------------------------------\n"
          << reset;
 
-    for (auto s : Student)
+    int sl_no = 1;
+    for (const auto &s : Student)
     {
-        if (x == s.id || x == s.name || x == s.year)
+        string s_name = s.name;
+        transform(s_name.begin(), s_name.end(), s_name.begin(), ::tolower);
+
+        if ((x == s.id) || (x == s_name) || (x == s.year))
         {
-            cout << "\n\n\t\t" << i << "  " << s.id << "  " << s.name << "    " << s.year << "    " << s.contractInfo << endl;
-            i++;
+            cout << "\n\n\t\t" << sl_no << "  " << s.id << "  " << s.name << "    " << s.year << "    " << s.contractInfo << endl;
+            sl_no++;
             found = true;
             Sleep(2000);
         }
@@ -1550,10 +1716,12 @@ void student::search_record()
     if (!found)
     {
         system("cls");
-        cout << red << "NO MATCH FOUND" << reset << endl;
+        cout << BOLDRED << "\n\n\n\t\t\tNO MATCH FOUND" << reset << endl;
     }
-    cout << "PRESS ANY KEY TO BACK:";
-    cin >> x;
+
+    cout << "\t\t\tPRESS ANY KEY TO GO BACK: ";
+    cin.ignore();
+    cin.get();
 }
 
 void student::remove_record()
@@ -1763,6 +1931,10 @@ void course::assign_course()
          << "\n\n\n";
     cout << "ENTER DEPERTMENT:";
     cin >> crs.dept;
+    if (crs.dept != "CSE" || crs.dept != "ECO" || crs.dept != "ENGLISH" || crs.dept != "BANGLA" || crs.dept != "cse")
+    {
+        return;
+    }
     if (crs.dept == "B" || crs.dept == "b")
         return;
     bool found = false;
@@ -1792,14 +1964,20 @@ ab:
     found = false;
 cd:
 
-    cout << "ENTER TEACHER NAME:";
+    cout << "ENTER TEACHER NAME/ID:";
     cin.ignore();
     getline(cin, teacher);
+    if (teacher == "B" || teacher == "b")
+        return;
+    transform(teacher.begin(), teacher.end(), teacher.begin(), ::tolower);
     for (auto &x : Teacher)
     {
-        if (x.name == teacher)
+        string s_name = x.name;
+        transform(s_name.begin(), s_name.end(), s_name.begin(), ::tolower);
+
+        if (x.name == teacher || x.id == teacher)
         {
-            crs.teacher = teacher;
+            crs.teacher = x.name;
             found = true;
             break;
         }
@@ -1938,7 +2116,7 @@ void grade_management(string name)
 
         default:
             system("cls");
-            cout << red << "\n\n\t\t\t\t\t\tWRONG OPTION!" << reset;
+            cout << red << "\n\n\t\t\t\t\t\tWRONGY OPTION!" << reset;
             cout << "\n\n";
             Sleep(1500);
             break;
@@ -2421,15 +2599,19 @@ void grade::grade_book(string id, string n)
         cout << n;
         cout << endl;
 
+#include <iostream>
+#include <iomanip> // For std::setw
+        using namespace std;
+
         float cgpa = grd.semester_cgpa(id, n);
         /*--------------------------------------------------------Grade List-----------------------------------------------*/
         int i = 1;
-        cout << "\t\t--------------------------------------------------------------------------------------------------------------\n"; // 106
-        cout << "\t\t Sl.   COURSE CODE                   CORSE TITLE                COURSE TEACHER          CREDIT   GRADE    GPA";
+        cout << "\t\t--------------------------------------------------------------------------------------------------------------\n";
+        cout << "\t\t Sl.   COURSE CODE       COURSE TITLE            COURSE TEACHER         CREDIT   GRADE   GPA";
         cout << "\n\t\t--------------------------------------------------------------------------------------------------------------\n";
+
         for (auto &x : Grade)
         {
-
             if (x.id == id && x.semester[1] == n[0])
             {
                 grd.code = x.code;
@@ -2440,12 +2622,21 @@ void grade::grade_book(string id, string n)
                 grd.final = x.final;
                 grd.grade = x.grade;
                 TempGrade.push_back(grd);
-                cout << "\t\t" << i << "   " << x.code << "                                                                          " << x.credit << "  " << x.grade << "\n";
+
+                // Adjust column widths with setw
+                cout << "\t\t" << setw(5) << left << i
+                     << setw(15) << left << x.code
+                     << setw(25) << left << x.title
+                     << setw(25) << left << x.title
+                     << setw(10) << right << x.credit
+                     << setw(8) << right << x.grade
+                     << setw(6) << right << x.gpa
+                     << "\n";
                 i++;
             }
         }
-        int a, b;
         cout << "\t\t--------------------------------------------------------------------------------------------------------------";
+
         printf("\n\t\t CGPA: %.2f\n", cgpa);
         cout << "Enter Sl. number for Details/Press 0 to Back:";
         cin >> year;
@@ -2455,6 +2646,7 @@ void grade::grade_book(string id, string n)
         }
         else
         {
+            int a, b;
             int n = stoi(year);
             n -= 1;
 

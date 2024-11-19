@@ -1931,10 +1931,7 @@ void course::assign_course()
          << "\n\n\n";
     cout << "ENTER DEPERTMENT:";
     cin >> crs.dept;
-    if (crs.dept != "CSE" || crs.dept != "ECO" || crs.dept != "ENGLISH" || crs.dept != "BANGLA" || crs.dept != "cse")
-    {
-        return;
-    }
+
     if (crs.dept == "B" || crs.dept == "b")
         return;
     bool found = false;
@@ -1943,7 +1940,7 @@ ab:
     cin >> code;
     if (code == "B" || code == "b")
         return;
-    for (auto x : CourseInfo)
+    for (auto &x : CourseInfo)
     {
         if (x.code == code)
         {
@@ -1999,7 +1996,7 @@ cd:
     }
     else
     {
-        file << crs.code << "," << crs.dept << "," << crs.teacher << "\n";
+        write_course();
         cout << "\n\n\t\t" << green << "Couse Assign Succesfully" << reset << endl;
         Sleep(1500);
     }
